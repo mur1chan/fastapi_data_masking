@@ -30,4 +30,3 @@ class Pseudonymize:
     def depseudonymize(self, data):
         return self.cipher_suite.decrypt(data.encode()).decode()
 
-

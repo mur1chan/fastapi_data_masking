@@ -54,3 +54,14 @@ async def post_customer(
         }
     else:
         return {"failed": "error"}
+
+
+@app.delete("/customer/{customer_name}")
+async def delete_customer(customer_name: str):
+    customer_name_pseudonymized = pseudo.pseudonymize(customer_name)
+    deletion_status = db.delete_row_by_name(customer_name_pseudonymized)
+
+    if deletion_status:
+        return {"success": f"Customer {customer_name} was successfully deleted"}
+    else:
+        return {"error": f"Failed to delete customer {customer_name}."}

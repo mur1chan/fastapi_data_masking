@@ -90,11 +90,16 @@ class Database:
         conn.commit()
         conn.close()
 
-    def delete_row_by_id(self, user_id):
+    def delete_row_by_name(self, customer_name: str):
         conn = sqlite3.connect(self.db_name)
         c = conn.cursor()
 
-        c.execute(f"DELETE FROM {self.table} WHERE customer_id", (user_id,))
+        c.execute(f"DELETE FROM {self.table} WHERE customer_name = ?", (customer_name,))
+
+        rows_affected = c.rowcount
 
         conn.commit()
         conn.close()
+
+        return True if rows_affected > 0 else False
+

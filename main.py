@@ -114,3 +114,35 @@ async def delete_customer(customer_name: str, current_user: Annotated[str, Depen
         return {"success": f"Customer {customer_name} was successfully deleted"}
     else:
         return {"error": f"Failed to delete customer {customer_name}."}
+
+
+@app.put("/customer/{customer_name}")
+async def update_customer(
+    customer_name: str,
+    new_customer_name: str = None,
+    new_customer_surname: str = None,
+    new_customer_address: str = None,
+    new_customer_postal: int = None,
+    new_customer_city: str = None,
+):
+    customer_name_pseudonymized = pseudo.pseudonymize(customer_name)
+
+    new_customer_name = pseudo.pseudonymize(new_customer_name) if new_customer_name else None
+    new_customer_surname = pseudo.pseudonymize(new_customer_surname) if new_customer_surname else None
+    new_customer_address = pseudo.pseudonymize(new_customer_address) if new_customer_address else None
+    new_customer_city = pseudo.pseudonymize(new_customer_city) if new_customer_city else None
+
+    update_status = db.update_data_by_name(
+        customer_name_pseudonymized,
+        new_customer_name,
+        new_customer_surname,
+        new_customer_address,
+        new_customer_postal,
+        new_customer_city
+    )
+
+    if update_status:
+        return {"success": f"Customer {customer_name}'s details were successfully updated"}
+    else:
+        return {"error": f"Failed to update details for customer {customer_name}."}
+

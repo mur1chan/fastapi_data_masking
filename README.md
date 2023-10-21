@@ -35,12 +35,6 @@ As the project is still in development, specific installation instructions are n
 
 The API uses Bearer Token Authentication. Tokens are generated upon successful login, and they must be included in the header for accessing protected routes.
 
-Example:
-
-\`\`\`bash
-Authorization: Bearer YOUR_TOKEN_HERE
-\`\`\`
-
 ### Libraries Used
 
 - **FastAPI**: For creating the API.

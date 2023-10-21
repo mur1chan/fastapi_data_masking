@@ -23,14 +23,6 @@ As the project is still in development, specific installation instructions are n
 - FastAPI
 - Uvicorn
 
-## Usage
-
-To run the application:
-
-\`\`\`bash
-# to be provided when the project is closer to completion
-\`\`\`
-
 ### API Endpoints
 
 - `POST /token`: For obtaining the Bearer token.

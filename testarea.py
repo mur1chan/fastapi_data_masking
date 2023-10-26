@@ -39,10 +39,28 @@ def db_display_entries():
     db.display_data()
 
 
+def login():
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
+
+    data = {
+        'grant_type': '',
+        'username': 'test',
+        'password': 'secret',
+        'scope': '',
+        'client_id': '',
+        'client_secret': '',
+    }
+
+    r = requests.post('http://127.0.0.1:8000/token', headers=headers, data=data)
+    print(r.text)
+
+
 if __name__ == "__main__":
     choice = int(
         input(
-            "Create Database: 1\nPost customers:  2\nShow customer entries: 3\n[1, 2, 3]: "
+            "Create Database: 1\nPost customers:  2\nShow customer entries: 3\nLogin: 4\n[1, 2, 3, 4]: "
         )
     )
     if choice == 1:
@@ -51,5 +69,7 @@ if __name__ == "__main__":
         post_customers()
     elif choice == 3:
         db_display_entries()
+    elif choice == 4:
+        login()
     else:
         print("wrong input")

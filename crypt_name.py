@@ -1,32 +1,23 @@
-from cryptography.fernet import Fernet
+import gocept.pseudonymize
 
 
 class Pseudonymize:
-    def setup(self):
-        self.key = self.read_key()
-        print(f"Read key: {self.key}")
-        self.cipher_suite = Fernet(self.key.encode())  # Convert the key string to bytes
+    def __init__(self):
+        self.pseudo = gocept.pseudonymize
 
-    def read_key(self):
-        with open("key.txt", "r") as f:
-            key = f.read().strip()  # Remove any extra spaces or newlines
-        return key
+    def pseudo_name(self, name:str, salt:str):
+        pseudo_name = self.pseudo.name(name, salt)
+        return pseudo_name
 
-    def generate_key(self):
-        key = Fernet.generate_key()
-        print(f"Fernet Key: {key.decode()}")  # Decode bytes to string for printing
-        choice = input("Do you want to store the key into a textfile? [y/n]: ")
-        if choice == "y":
-            with open("key.txt", "w") as f:
-                f.write(key.decode())  # Decode bytes to string for storing
-        elif choice == "n":
-            pass
-        else:
-            print("Wrong input. Try again.")
+    def pseudo_street(self, street:str, salt:str):
+        pseudo_street = self.pseudo.street(street, salt)
+        return pseudo_street
 
-    def pseudonymize(self, data):
-        return self.cipher_suite.encrypt(data.encode()).decode()
+    def pseudo_postal(self, postal_code:int, salt:str):
+        pseudo_postal = self.pseudo.integer(postal_code, salt)
+        return pseudo_postal
 
-    def depseudonymize(self, data):
-        return self.cipher_suite.decrypt(data.encode()).decode()
+    def pseudo_city(self, city:str, salt:str):
+        pseudo_city = self.pseudo.text(city, salt)
+        return pseudo_city
 

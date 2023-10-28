@@ -64,6 +64,7 @@ class Database:
         conn.commit()
         conn.close()
         return True
+
     def display_data(self):
         conn = sqlite3.connect(self.db_name)
         c = conn.cursor()
@@ -103,14 +104,15 @@ class Database:
 
         return True if rows_affected > 0 else False
 
-    def update_data_by_name(self,
-                            customer_name: str,
-                            new_customer_name: str,
-                            new_customer_surname: str,
-                            new_customer_address: str,
-                            new_customer_postal: int,
-                            new_customer_city: str):
-
+    def update_data_by_name(
+        self,
+        customer_name: str,
+        new_customer_name: str,
+        new_customer_surname: str,
+        new_customer_address: str,
+        new_customer_postal: int,
+        new_customer_city: str,
+    ):
         conn = sqlite3.connect(self.db_name)
         c = conn.cursor()
 
@@ -119,10 +121,12 @@ class Database:
             "customer_surname": new_customer_surname,
             "customer_address": new_customer_address,
             "customer_postal": new_customer_postal,
-            "customer_city": new_customer_city
+            "customer_city": new_customer_city,
         }
 
-        set_clause = ", ".join(f"{key} = ?" for key, value in update_fields.items() if value is not None)
+        set_clause = ", ".join(
+            f"{key} = ?" for key, value in update_fields.items() if value is not None
+        )
         values = [value for value in update_fields.values() if value is not None]
 
         if not set_clause:  # Falls nichts geupdated wird
@@ -136,4 +140,3 @@ class Database:
         conn.commit()
         conn.close()
         return True if affected_rows > 0 else False
-

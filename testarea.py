@@ -10,16 +10,20 @@ def post_customers():
     customer_address = "Musterstraße 123"
     customer_postal = 12345
     customer_city = "Musterstadt"
-
+    salt = "salt"
+    headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjk4NTkzMzM5fQ.WPaK0FglJpx5EPviAHJtzciH37QXd5_uvJjnKE4HZuI"
+    }
     data = {
         "customer_name": str(customer_name),
         "customer_surname": str(customer_surname),
         "customer_address": str(customer_address),
         "customer_postal": customer_postal,
         "customer_city": str(customer_city),
+        "salt": str(salt),
     }
 
-    response = requests.post(url, params=data)
+    response = requests.post(url, params=data, headers=headers)
 
     if response.status_code == 200:
         print("Erfolgreich gesendet!")
@@ -29,8 +33,12 @@ def post_customers():
 
 
 def post_create_database():
+    headers = {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjk4NTkzMzM5fQ.WPaK0FglJpx5EPviAHJtzciH37QXd5_uvJjnKE4HZuI"
+    }
+
     url = "http://localhost:8000/create_db/somerandomstrings"
-    response = requests.post(url)
+    response = requests.post(url, headers=headers)
     print(response.text)
 
 
@@ -41,19 +49,19 @@ def db_display_entries():
 
 def login():
     headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
     }
 
     data = {
-        'grant_type': '',
-        'username': 'test',
-        'password': 'secret',
-        'scope': '',
-        'client_id': '',
-        'client_secret': '',
+        "grant_type": "",
+        "username": "test",
+        "password": "secret",
+        "scope": "",
+        "client_id": "",
+        "client_secret": "",
     }
 
-    r = requests.post('http://127.0.0.1:8000/token', headers=headers, data=data)
+    r = requests.post("http://127.0.0.1:8000/token", headers=headers, data=data)
     print(r.text)
 
 

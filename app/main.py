@@ -4,9 +4,9 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 
-from auth import Authorization
-from crypt_name import Pseudonymize
-from database import Database
+from app.auth import Authorization
+from app.crypt_name import Pseudonymize
+from app.database import Database
 
 pseudo = Pseudonymize()
 auth = Authorization()

@@ -54,7 +54,18 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
         access_token = auth.create_access_token(data={"sub": user["username"]})
         return {"access_token": access_token, "token_type": "bearer"}
 
-@app.post("pseudonymize")
+@app.post("/pseudonymize")
 async def pseudonymize(
     current_user: Annotated[str, Depends(get_current_user)],
+    values: list,
+    salt: str
 ):
+
+    response = []
+    for value in values:
+        if isinstance(value, int):
+            response.append(pseudo.pseudo_int(value, salt))
+        else:
+            response.append(pseudo.pseudo_str(value, salt))
+    
+    return {"values": response}

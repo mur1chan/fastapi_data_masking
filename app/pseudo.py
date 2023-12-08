@@ -8,6 +8,6 @@ class Pseudonymize:
         string = self.pseudo.text(str, salt)
         return string
 
-    def pseudo_int(self, int:str, salt:str):
+    def pseudo_int(self, int:int, salt:str):
         integer = self.pseudo.integer(int, salt)
         return integer

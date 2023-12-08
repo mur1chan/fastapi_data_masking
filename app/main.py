@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
+from pydantic import BaseModel
 
 from app.auth import Authorization
 from app.pseudo import Pseudonymize
@@ -21,6 +22,9 @@ kunden = {
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 
+class Pseudonymize(BaseModel):
+    values: list
+    salt: str
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
@@ -56,16 +60,15 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
 
 @app.post("/pseudonymize")
 async def pseudonymize(
-    current_user: Annotated[str, Depends(get_current_user)],
-    values: list,
-    salt: str
+    pseudonymize: Pseudonymize,
+    current_user: Annotated[str, Depends(get_current_user)]
 ):
 
     response = []
-    for value in values:
+    for value in pseudonymize.values:
         if isinstance(value, int):
-            response.append(pseudo.pseudo_int(value, salt))
+            response.append(pseudo.pseudo_int(value, pseudonymize.salt))
         else:
-            response.append(pseudo.pseudo_str(value, salt))
+            response.append(pseudo.pseudo_str(value, pseudonymize.salt))
     
     return {"values": response}

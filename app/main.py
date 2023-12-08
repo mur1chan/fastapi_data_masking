@@ -54,3 +54,5 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
     else:
         access_token = auth.create_access_token(data={"sub": user["username"]})
         return {"access_token": access_token, "token_type": "bearer"}
+
+# @app.post("pseudonymize")

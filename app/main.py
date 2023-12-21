@@ -24,7 +24,7 @@ ALGORITHM = "HS256"
 
 class Pseudonymize(BaseModel):
     values: list
-    salt: str
+    password: str
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
@@ -66,9 +66,18 @@ async def pseudonymize(
 
     response = []
     for value in pseudonymize.values:
-        if isinstance(value, int):
-            response.append(pseudo.pseudo_int(value, pseudonymize.salt))
-        else:
-            response.append(pseudo.pseudo_str(value, pseudonymize.salt))
+        response.append(pseudo.pseudo(str(value), pseudonymize.password))
+    
+    return {"values": response}
+
+@app.post("/unpseudonymize")
+async def pseudonymize(
+    pseudonymize: Pseudonymize,
+    current_user: Annotated[str, Depends(get_current_user)]
+):
+
+    response = []
+    for value in pseudonymize.values:
+        response.append(pseudo.unpseudo(value, pseudonymize.password))
     
     return {"values": response}

@@ -1,13 +1,13 @@
-import gocept.pseudonymize
+import rncryptor
 
 class Pseudonymize:
     def __init__(self):
-        self.pseudo = gocept.pseudonymize
+        self.cryptor = rncryptor.RNCryptor()
 
-    def pseudo_str(self, str:str, salt:str):
-        string = self.pseudo.text(str, salt)
-        return string
+    def pseudo(self, data:str, password:str):
+        encrypted_data = self.cryptor.encrypt(data, password).hex()
+        return encrypted_data
 
-    def pseudo_int(self, int:int, salt:str):
-        integer = self.pseudo.integer(int, salt)
-        return integer
+    def unpseudo(self, data:str, password:str):
+        decrypted_data = self.cryptor.decrypt(bytes.fromhex(data), password)
+        return decrypted_data

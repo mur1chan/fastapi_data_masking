@@ -74,15 +74,13 @@ async def pseudonymize(
 ):
     response = []
     for value in pseudonymize.values:
-<<<<<<< HEAD
         response.append(pseudo.pseudo(str(value), pseudonymize.password))
     
     return {"values": response}
 
 @app.post("/unpseudonymize")
 async def pseudonymize(
-    pseudonymize: Pseudonymize,
-    current_user: Annotated[str, Depends(get_current_user)]
+    pseudonymize: Pseudonymize, current_user: Annotated[str, Depends(get_current_user)]
 ):
 
     response = []
@@ -90,18 +88,12 @@ async def pseudonymize(
         response.append(pseudo.unpseudo(value, pseudonymize.password))
     
     return {"values": response}
-=======
-        if isinstance(value, int):
-            response.append(pseudo.pseudo_int(value, pseudonymize.salt))
-        else:
-            response.append(pseudo.pseudo_str(value, pseudonymize.salt))
-
-    return {"values": response}
 
 
 @app.post("/anonymize")
 async def anonymize(data: AnonymizeData):
     response = []
+
     for value in data.values:
         hash_object = hashlib.sha256()
 
@@ -111,5 +103,4 @@ async def anonymize(data: AnonymizeData):
 
         response.append(hashed_value)
 
-    return {"anonymized_values": response}
->>>>>>> 5ce640aa1ca401975b14c5903be12e156f931e14
+    return {"values": response}

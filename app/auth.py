@@ -18,13 +18,13 @@ class Authorization:
 
     def get_user(self, db, username):
         if username in db:
-            return {"username": username, "password": db[username]["hashed_password"]}
+            return {"username": username, "password": "$2b$12$"+db[username]["hashed_password"]}
 
     def authenticate_user(self, db, username, password):
         user = self.get_user(db, username)
         if not user:
             return False
-        if not self.verify_password(password, db[username]["hashed_password"]):
+        if not self.verify_password(password, "$2b$12$"+db[username]["hashed_password"]):
             return False
         return user
 

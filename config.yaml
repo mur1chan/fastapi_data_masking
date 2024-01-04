@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Customer Management API
+  description: This API provides functionalities for customer management, authentication, and database operations.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Development server
+
+paths:
+  /:
+    get:
+      summary: Root Endpoint
+      description: Returns a greeting message.
+      responses:
+        '200':
+          description: A successful response
+
+  /token:
+    post:
+      summary: Token Generation
+      description: Authenticates user and returns a token.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successfully authenticated
+
+  /create_db/somerandomstrings:
+    post:
+      summary: Database Creation
+      description: Creates a new database.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Database successfully created
+        '401':
+          description: Unauthorized access
+
+  /customer/{customer_name}:
+    post:
+      summary: Add Customer
+      description: Adds a new customer with pseudonymized information.
+      parameters:
+        - in: path
+          name: customer_name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_surname:
+                  type: string
+                customer_address:
+                  type: string
+                customer_postal:
+                  type: integer
+                customer_city:
+                  type: string
+                salt:
+                  type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Customer data received
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

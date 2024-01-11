@@ -18,11 +18,12 @@ def token():
         },
     )
     assert response.status_code == 200
+    print(response.json()["access_token"])
     return response.json()["access_token"]
 
 
 def test_anonymize(token):
-    print(type(token))
+    print(token)
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": ["test1", "test2"],

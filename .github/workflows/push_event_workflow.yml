@@ -10,6 +10,10 @@ jobs:
     - name : Checkout code
       uses : actions/checkout@v2
 
+    - name : Create and activate environment
+      run :    python3 -m venv .venv && source .venv/bin/activate
+
+    
     - name : Set password
       run : export SECRET=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7 && export PASSWORD=EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW
     
@@ -20,4 +24,4 @@ jobs:
       run : uvicorn app.main:app --reload &
     
     - name : Run tests 
-      run : pytest --fixtures test.py
+      run : pytest test.py

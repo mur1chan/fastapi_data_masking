@@ -2,9 +2,9 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
-token = None
 
 def test_login_for_access_token():
+    global token
     response = client.post("/token", data={
         "grant_type": "",
         "username": "test",
@@ -14,7 +14,6 @@ def test_login_for_access_token():
         "client_secret": "",
     })
     assert response.status_code == 200
-    global token
     token = response.json()["access_token"]
     assert "access_token" in response.json()
 

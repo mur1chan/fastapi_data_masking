@@ -88,7 +88,7 @@ async def unpseudonymize(
 
 
 @app.post("/anonymize")
-async def anonymize(data: AnonymizeData):
+async def anonymize(data: AnonymizeData, current_user: Annotated[str, Depends(get_current_user)]):
     response = []
 
     for value in data.values:

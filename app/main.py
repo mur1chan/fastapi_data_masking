@@ -15,20 +15,19 @@ auth = Authorization()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
-class AnonymizeData(BaseModel):
+
+class Anonymize(BaseModel):
     values: list[str]
 
-kunden = {
-    "test": {
-        "hashed_password": os.environ.get('PASSWORD'),
-    }
-}
 
-SECRET_KEY = os.environ.get('SECRET')
+kunden = {"test": {"hashed_password": os.getenv("PASSWORD")}}
+
+SECRET_KEY = os.getenv("SECRET")
 ALGORITHM = "HS256"
 
+
 class Pseudonymize(BaseModel):
-    values: list
+    values: list[str]
     password: str
 
 
@@ -73,26 +72,28 @@ async def pseudonymize(
     response = []
     for value in pseudonymize.values:
         response.append(pseudo.pseudo(str(value), pseudonymize.password))
-    
+
     return {"values": response}
 
+
 @app.post("/unpseudonymize")
-async def pseudonymize(
+async def unpseudonymize(
     pseudonymize: Pseudonymize, current_user: Annotated[str, Depends(get_current_user)]
 ):
-
     response = []
     for value in pseudonymize.values:
         response.append(pseudo.unpseudo(value, pseudonymize.password))
-    
+
     return {"values": response}
 
 
 @app.post("/anonymize")
-async def anonymize(data: AnonymizeData):
+async def anonymize(
+    anonymize: Anonymize, current_user: Annotated[str, Depends(get_current_user)]
+):
     response = []
 
-    for value in data.values:
+    for value in anonymize.values:
         hash_object = hashlib.sha256()
 
         hash_object.update(value.encode())

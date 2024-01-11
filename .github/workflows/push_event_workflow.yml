@@ -1,0 +1,36 @@
+name: Push Event Workflow
+
+on: push 
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-latest 
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'  
+
+    - name: Create and activate environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+
+    - name: Set environment variables
+      run: |
+        echo "SECRET=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7" >> $GITHUB_ENV
+        echo "PASSWORD=EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW" >> $GITHUB_ENV
+
+    - name: Install Packages 
+      run: |
+        source .venv/bin/activate
+        pip install -r requirements.txt
+    
+    - name: Run tests 
+      run: |
+        source .venv/bin/activate
+        pytest test.py

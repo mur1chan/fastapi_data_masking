@@ -1,10 +1,14 @@
-import pytest
+import pytest, os
 from fastapi.testclient import TestClient
 
 from app.main import app
 
 client = TestClient(app)
 
+@pytest.fixture(scope="session")
+def set_env():
+    os.environ["SECRET"] = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+    os.environ["PASSWORD"] = "EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW"
 
 @pytest.fixture(scope="module")
 def token():

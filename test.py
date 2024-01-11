@@ -20,12 +20,10 @@ def token():
         },
     )
     assert response.status_code == 200
-    global token
-    token = response.json()["access_token"]
-    assert "access_token" in response.json()
+    return response.json()["access_token"] 
 
 
-def test_anonymize():
+def test_anonymize(token):
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": ["test1", "test2"],
@@ -38,7 +36,7 @@ def test_anonymize():
     assert len(data["values"]) == len(test_data["values"])
 
 
-def test_pseudonymize():
+def test_pseudonymize(token):
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": ["test1", "test2"],
@@ -51,7 +49,7 @@ def test_pseudonymize():
     assert len(data["values"]) == len(test_data["values"])
 
 
-def test_unpseudonymize():
+def test_unpseudonymize(token):
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": [

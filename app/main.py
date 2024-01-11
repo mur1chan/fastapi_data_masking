@@ -22,7 +22,7 @@ class AnonymizeData(BaseModel):
 
 kunden = {"test": {"hashed_password": os.getenv("PASSWORD")}}
 
-SECRET_KEY = os.getenv("PASSWORD")
+SECRET_KEY = os.getenv("SECRET")
 ALGORITHM = "HS256"
 
 

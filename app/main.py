@@ -77,7 +77,7 @@ async def pseudonymize(
 
 
 @app.post("/unpseudonymize")
-async def pseudonymize(
+async def unpseudonymize(
     pseudonymize: Pseudonymize, current_user: Annotated[str, Depends(get_current_user)]
 ):
     response = []

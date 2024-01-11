@@ -16,7 +16,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
 
-class AnonymizeData(BaseModel):
+class Anonymize(BaseModel):
     values: list[str]
 
 
@@ -88,10 +88,12 @@ async def unpseudonymize(
 
 
 @app.post("/anonymize")
-async def anonymize(data: AnonymizeData, current_user: Annotated[str, Depends(get_current_user)]):
+async def anonymize(
+    anonymize: Anonymize, current_user: Annotated[str, Depends(get_current_user)]
+):
     response = []
 
-    for value in data.values:
+    for value in anonymize.values:
         hash_object = hashlib.sha256()
 
         hash_object.update(value.encode())

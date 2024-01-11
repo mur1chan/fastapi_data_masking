@@ -7,7 +7,7 @@ client = TestClient(app)
 
 
 @pytest.fixture(scope="module")
-def test_token():
+def token():
     response = client.post(
         "/token",
         data={

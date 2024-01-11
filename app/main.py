@@ -27,7 +27,7 @@ ALGORITHM = "HS256"
 
 
 class Pseudonymize(BaseModel):
-    values: list
+    values: list[str]
     password: str
 
 

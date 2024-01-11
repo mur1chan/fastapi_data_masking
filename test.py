@@ -7,7 +7,7 @@ client = TestClient(app)
 
 
 @pytest.fixture(scope="module")
-def token():
+def test_token():
     response = client.post(
         "/token",
         data={
@@ -20,10 +20,11 @@ def token():
         },
     )
     assert response.status_code == 200
-    return response.json()["access_token"] 
+    return response.json()["access_token"]
 
 
 def test_anonymize(token):
+    print(type(token))
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": ["test1", "test2"],
@@ -37,6 +38,7 @@ def test_anonymize(token):
 
 
 def test_pseudonymize(token):
+    print(type(token))
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": ["test1", "test2"],
@@ -50,6 +52,7 @@ def test_pseudonymize(token):
 
 
 def test_unpseudonymize(token):
+    print(type(token))
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": [

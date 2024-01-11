@@ -9,22 +9,18 @@ def token():
     response = client.post(
         "/token",
         data={
-            "grant_type": "",
-            "username": "test",
-            "password": "secret",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
+            'grant_type': 'password',
+            'username': 'test',
+            'password': 'secret',
         },
     )
     assert response.status_code == 200
-    print(response.json()["access_token"])
     return response.json()["access_token"]
 
 
 def test_anonymize(token):
     print(token)
-    headers = {"Authorization": "Bearer " + token}
+    headers = {"Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNzA1MDg4OTU5fQ.PHCNltR2s737-yB8LUK02oy6X4XXbt5x_bYtKIYyN3A"}
     test_data = {
         "values": ["test1", "test2"],
         "password": "EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",

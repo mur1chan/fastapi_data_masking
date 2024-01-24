@@ -1,5 +1,6 @@
 import hashlib
 import os
+import rncryptor
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -21,6 +22,7 @@ class Anonymize(BaseModel):
 
 
 password = os.getenv("PASSWORD")
+passwordstr = os.getenv("PASSWORDSTR")
 
 SECRET_KEY = os.getenv("SECRET")
 ALGORITHM = "HS256"
@@ -31,6 +33,7 @@ class Pseudonymize(BaseModel):
     password: str
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    cryptor = rncryptor.RNCryptor()
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -41,14 +44,13 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = auth.get_user(password)
     except JWTError:
         raise credentials_exception
-    user = auth.get_user(password, username=token_data["username"])
-    if user is None:
+    try:
+        user = cryptor.decrypt(bytes.fromhex(password), passwordstr)
+        return user
+    except:
         raise credentials_exception
-    return user
-
 
 @app.post("/token")
 async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depends()]):

@@ -3,7 +3,7 @@ import os
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from pydantic import BaseModel
 
@@ -15,10 +15,6 @@ auth = Authorization()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
-
-class OAuth2PasswordRequestForm(BaseModel):
-    username: str
-    password: str
 
 class Anonymize(BaseModel):
     values: list[str]

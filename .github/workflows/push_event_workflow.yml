@@ -23,7 +23,7 @@ jobs:
     - name: Set environment variables
       run: |
         echo "SECRET=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7" >> $GITHUB_ENV
-        echo "PASSWORD=EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW" >> $GITHUB_ENV
+        echo "PASSWORD=0301c30e3a89fbee0bb2dcc21d8cb948a05ab57e5313c0d19c52bbe3c464d3a32eeffec7dc4c38d58358685c84c248621362f8c6568c683c5079ec69826ee6792f069187a2f5b0a6f7a56d486a018a2d593b" >> $GITHUB_ENV
 
     - name: Install Packages 
       run: |

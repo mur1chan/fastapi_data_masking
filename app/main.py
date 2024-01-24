@@ -16,7 +16,7 @@ auth = Authorization()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
-class OAuth2PasswordRequestForm():
+class OAuth2PasswordRequestForm(BaseModel):
     username: str
     password: str
 

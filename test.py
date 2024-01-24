@@ -44,7 +44,6 @@ def test_pseudonymize(token):
 
 
 def test_unpseudonymize(token):
-    print(type(token))
     headers = {"Authorization": "Bearer " + token}
     test_data = {
         "values": [

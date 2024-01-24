@@ -3,7 +3,7 @@ import os
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from pydantic import BaseModel
 
@@ -12,15 +12,19 @@ from app.pseudo import Pseudonymize
 
 pseudo = Pseudonymize()
 auth = Authorization()
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
+class OAuth2PasswordRequestForm():
+    username: str
+    password: str
 
 class Anonymize(BaseModel):
     values: list[str]
 
 
-kunden = {"test": {"hashed_password": os.getenv("PASSWORD")}}
+password = os.getenv("PASSWORD")
 
 SECRET_KEY = os.getenv("SECRET")
 ALGORITHM = "HS256"
@@ -29,7 +33,6 @@ ALGORITHM = "HS256"
 class Pseudonymize(BaseModel):
     values: list[str]
     password: str
-
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
@@ -42,10 +45,10 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = auth.get_user(kunden, username)
+        token_data = auth.get_user(password)
     except JWTError:
         raise credentials_exception
-    user = auth.get_user(kunden, username=token_data["username"])
+    user = auth.get_user(password, username=token_data["username"])
     if user is None:
         raise credentials_exception
     return user
@@ -60,7 +63,7 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
     - **username**: The username of the user.
     - **password**: The password of the user.
     """
-    user = auth.authenticate_user(kunden, data.username, data.password)
+    user = auth.authenticate_user(password, data.username, data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -68,7 +71,7 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
             headers={"WWW-Authenticate": "Bearer"},
         )
     else:
-        access_token = auth.create_access_token(data={"sub": user["username"]})
+        access_token = auth.create_access_token(data={"sub": user})
         return {"access_token": access_token, "token_type": "bearer"}
 
 

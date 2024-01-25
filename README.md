@@ -5,8 +5,7 @@ Dieses Projekt bietet robuste Sicherheitsmechanismen für Benutzerauthentifizier
 
 ### Benutzerauthentifizierung:
 - Sichere Authentifizierung mittels OAuth2.
-- JWTs für Benutzersicherheit und
-- verwaltung.
+- JWTs für Benutzersicherheit und -verwaltung.
 ### Pseudonymisierung von Daten:
   - Fähigkeit zur sicheren Pseudonymisierung sensibler Daten.
   -  Unterstützung für Passwort-basierte Datenverschlüsselung.

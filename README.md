@@ -18,6 +18,7 @@ Dieses Projekt bietet robuste Sicherheitsmechanismen für Benutzerauthentifizier
 - Übereinstimmung mit aktuellen Sicherheitsstandards.
 - Einhaltung von Datenschutzgesetzen.
 ### Dockerfile:
+- SECRET ist für das Generieren des Bearertokens zuständing und soll nicht verändert werden.
 - PASSWORD ist ein Hash für die Kombination von Nutzername und Passwort.
 - PASSWORDSTR ist das Passwort der Kombination als Text, um es dem Nutzernamen bei der Entschlüsselung zuzuordnen.
 Code für die Generierung von PASSWORD:

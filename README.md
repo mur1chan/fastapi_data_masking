@@ -21,11 +21,11 @@ Dieses Projekt bietet robuste Sicherheitsmechanismen für Benutzerauthentifizier
 - SECRET ist für das Generieren des Bearertokens zuständing und soll nicht verändert werden.
 - PASSWORD ist ein Hash für die Kombination von Nutzername und Passwort.
 - PASSWORDSTR ist das Passwort der Kombination als Text, um es dem Nutzernamen bei der Entschlüsselung zuzuordnen.
-Code für die Generierung von PASSWORD:
+#### Code für die Generierung von PASSWORD:
 ```
 import rncryptor
 cryptor = rncryptor.RNCryptor()
 password = cryptor.encrypt("username", "password").hex()
 ```
 ## Lizenz
-Dieses Projekt steht unter einer spezifischen Lizenz. Details finden Sie in der Datei `LICENSE`.
+Dieses Projekt steht unter der GNU GENERAL PUBLIC Lizenz. Details finden Sie in der Datei `LICENSE.txt`.

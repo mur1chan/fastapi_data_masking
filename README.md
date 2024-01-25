@@ -17,5 +17,14 @@ Dieses Projekt bietet robuste Sicherheitsmechanismen für Benutzerauthentifizier
 ### Sicherheitskonformität:
 - Übereinstimmung mit aktuellen Sicherheitsstandards.
 - Einhaltung von Datenschutzgesetzen.
+### Dockerfile:
+- PASSWORD ist ein Hash für die Kombination von Nutzername und Passwort.
+- PASSWORDSTR ist das Passwort der Kombination als Text, um es dem Nutzernamen bei der Entschlüsselung zuzuordnen.
+Code für die Generierung von PASSWORD:
+```
+import rncryptor
+cryptor = rncryptor.RNCryptor()
+password = cryptor.encrypt("username", "password").hex()
+```
 ## Lizenz
 Dieses Projekt steht unter einer spezifischen Lizenz. Details finden Sie in der Datei `LICENSE`.
